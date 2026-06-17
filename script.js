@@ -145,15 +145,15 @@ function setupCodeTabs() {
 
 // Handle trigger points for simulators
 function handleSlideVisuals(slideIdx) {
-    // Slide index 15 = BFS Pathfinder Simulator
-    if (slideIdx === 15) {
+    // Slide index 5 = BFS Pathfinder Simulator
+    if (slideIdx === 5) {
         startBfsSimulation();
     } else {
         stopBfsSimulation();
     }
 
-    // Slide index 20 = Camera/Screen Shake Simulation
-    if (slideIdx === 20) {
+    // Slide index 8 = Camera/Screen Shake Simulation
+    if (slideIdx === 8) {
         initCameraSim();
     } else {
         stopCameraSim();
