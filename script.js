@@ -81,7 +81,7 @@ function toggleAutoplay() {
         clearInterval(autoplayInterval);
         isAutoplayActive = false;
         autoplayBtn.classList.remove('active');
-        autoplayBtn.innerHTML = '▶ Autoplay';
+        autoplayBtn.innerHTML = '▶ Auto';
     } else {
         isAutoplayActive = true;
         autoplayBtn.classList.add('active');
@@ -154,7 +154,7 @@ function handleSlideVisuals(slideIdx) {
 }
 
 // ==========================================
-// INTERACTIVE SIMULATION 1: BFS Pathfinder
+// INTERACTIVE SIMULATION 1: BFS Pathfinder (Light Theme)
 // ==========================================
 let bfsCanvas, bfsCtx;
 let bfsGridSize = 14;
@@ -311,21 +311,21 @@ function drawBfsSimulation() {
             const key = `${x},${y}`;
             
             // Base tile
-            bfsCtx.fillStyle = '#0f1322';
+            bfsCtx.fillStyle = '#f8fafc';
             bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
+            bfsCtx.strokeStyle = '#e2e8f0';
+            bfsCtx.strokeRect(px, py, bfsCellPixelSize, bfsCellPixelSize);
             
             // Lockers / Walls
             if (bfsObstacles.has(key)) {
-                bfsCtx.fillStyle = '#22293f';
+                bfsCtx.fillStyle = '#64748b';
                 bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
-                bfsCtx.fillStyle = '#f87171';
-                bfsCtx.fillRect(px + 2, py + (bfsCellPixelSize / 2) - 1, bfsCellPixelSize - 4, 2);
             }
             
             // Explored cells visualization
             const isExplored = bfsExplored.some(c => c.x === x && c.y === y);
             if (isExplored && !bfsObstacles.has(key)) {
-                bfsCtx.fillStyle = 'rgba(167, 139, 250, 0.08)';
+                bfsCtx.fillStyle = 'rgba(37, 99, 235, 0.05)';
                 bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
             }
         }
@@ -333,8 +333,8 @@ function drawBfsSimulation() {
     
     // Draw BFS Path
     if (bfsPath.length > 0) {
-        bfsCtx.strokeStyle = 'rgba(0, 242, 254, 0.5)';
-        bfsCtx.lineWidth = bfsCellPixelSize * 0.15;
+        bfsCtx.strokeStyle = '#2563eb';
+        bfsCtx.lineWidth = bfsCellPixelSize * 0.12;
         bfsCtx.lineCap = 'round';
         bfsCtx.lineJoin = 'round';
         
@@ -354,24 +354,18 @@ function drawBfsSimulation() {
     // Draw Target Destination
     const targetPx = xOffset + npcTarget.x * bfsCellPixelSize + bfsCellPixelSize/2;
     const targetPy = yOffset + npcTarget.y * bfsCellPixelSize + bfsCellPixelSize/2;
-    bfsCtx.fillStyle = '#f87171';
-    bfsCtx.shadowColor = '#f87171';
-    bfsCtx.shadowBlur = 10;
+    bfsCtx.fillStyle = '#dc2626';
     bfsCtx.beginPath();
-    bfsCtx.arc(targetPx, targetPy, bfsCellPixelSize * 0.25, 0, Math.PI * 2);
+    bfsCtx.arc(targetPx, targetPy, bfsCellPixelSize * 0.22, 0, Math.PI * 2);
     bfsCtx.fill();
-    bfsCtx.shadowBlur = 0; // Reset shadow
     
-    // Draw NPC (Player) LERPed position
+    // Draw NPC LERPed position
     const npcPx = xOffset + npcInterpolated.x * bfsCellPixelSize + bfsCellPixelSize/2;
     const npcPy = yOffset + npcInterpolated.y * bfsCellPixelSize + bfsCellPixelSize/2;
-    bfsCtx.fillStyle = '#00f2fe';
-    bfsCtx.shadowColor = '#00f2fe';
-    bfsCtx.shadowBlur = 12;
+    bfsCtx.fillStyle = '#0f172a';
     bfsCtx.beginPath();
-    bfsCtx.arc(npcPx, npcPy, bfsCellPixelSize * 0.32, 0, Math.PI * 2);
+    bfsCtx.arc(npcPx, npcPy, bfsCellPixelSize * 0.28, 0, Math.PI * 2);
     bfsCtx.fill();
-    bfsCtx.shadowBlur = 0; // Reset shadow
     
     // HUD status
     const statusText = document.getElementById('bfs-status');
