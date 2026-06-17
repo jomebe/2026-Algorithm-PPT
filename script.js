@@ -138,15 +138,15 @@ function setupCodeTabs() {
 
 // Handle trigger points for simulators
 function handleSlideVisuals(slideIdx) {
-    // Slide index 5 = BFS Pathfinder Simulator
-    if (slideIdx === 5) {
+    // Slide index 15 = BFS Pathfinder Simulator
+    if (slideIdx === 15) {
         startBfsSimulation();
     } else {
         stopBfsSimulation();
     }
 
-    // Slide index 8 = Camera/Screen Shake Simulation
-    if (slideIdx === 8) {
+    // Slide index 20 = Camera/Screen Shake Simulation
+    if (slideIdx === 20) {
         initCameraSim();
     } else {
         stopCameraSim();
@@ -311,22 +311,21 @@ function drawBfsSimulation() {
             const key = `${x},${y}`;
             
             // Base tile
-            bfsCtx.fillStyle = '#101423';
+            bfsCtx.fillStyle = '#0f1322';
             bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
             
             // Lockers / Walls
             if (bfsObstacles.has(key)) {
-                bfsCtx.fillStyle = '#2c3349';
+                bfsCtx.fillStyle = '#22293f';
                 bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
-                // Draw decorative lock line
-                bfsCtx.fillStyle = '#ef4444';
+                bfsCtx.fillStyle = '#f87171';
                 bfsCtx.fillRect(px + 2, py + (bfsCellPixelSize / 2) - 1, bfsCellPixelSize - 4, 2);
             }
             
             // Explored cells visualization
             const isExplored = bfsExplored.some(c => c.x === x && c.y === y);
             if (isExplored && !bfsObstacles.has(key)) {
-                bfsCtx.fillStyle = 'rgba(139, 92, 246, 0.08)';
+                bfsCtx.fillStyle = 'rgba(167, 139, 250, 0.08)';
                 bfsCtx.fillRect(px + 1, py + 1, bfsCellPixelSize - 2, bfsCellPixelSize - 2);
             }
         }
@@ -355,8 +354,8 @@ function drawBfsSimulation() {
     // Draw Target Destination
     const targetPx = xOffset + npcTarget.x * bfsCellPixelSize + bfsCellPixelSize/2;
     const targetPy = yOffset + npcTarget.y * bfsCellPixelSize + bfsCellPixelSize/2;
-    bfsCtx.fillStyle = '#ef4444';
-    bfsCtx.shadowColor = '#ef4444';
+    bfsCtx.fillStyle = '#f87171';
+    bfsCtx.shadowColor = '#f87171';
     bfsCtx.shadowBlur = 10;
     bfsCtx.beginPath();
     bfsCtx.arc(targetPx, targetPy, bfsCellPixelSize * 0.25, 0, Math.PI * 2);
@@ -470,7 +469,7 @@ function triggerObstacleHit() {
     cameraHearts--;
     updateHeartsUI();
     
-    // Trigger screen shake (simulated Perlin Noise)
+    // Trigger screen shake
     simulatedShakeStrength = cameraHearts <= 0 ? 1.2 : 0.75;
     simulatedShakeTimer = 0.45; // 0.45s shake duration like Unity HitObstacle()
     
@@ -498,7 +497,7 @@ function loopCameraSim() {
         document.getElementById('sim-speed-val').textContent = cameraSimSpeed.toFixed(1);
     }
     
-    // 1. Calculate simulated FOV based on speed (Mathf.InverseLerp in Unity script)
+    // Calculate simulated FOV
     const speed01 = (cameraSimSpeed - minSpeed) / (maxSpeed - minSpeed);
     const targetFov = 60.0 + speed01 * 12.0; // normalFov = 60, fastFov = 72
     
@@ -506,7 +505,6 @@ function loopCameraSim() {
     
     const elementsBox = document.getElementById('camera-elements');
     if (elementsBox) {
-        // Scale width/perspective of 3D scene elements to represent FOV changes
         const fovScaleFactor = fovFovValue / 60.0;
         elementsBox.style.transform = `perspective(300px) rotateX(40deg) scale(${1.1 * fovScaleFactor})`;
     }
@@ -515,20 +513,19 @@ function loopCameraSim() {
     const fovValEl = document.getElementById('sim-fov-val');
     if (fovValEl) fovValEl.textContent = Math.round(fovFovValue);
     
-    // Speed lines speed lines visual control
+    // Speed lines overlay
     const speedLines = document.getElementById('speed-lines');
     if (speedLines) {
         speedLines.style.opacity = speed01 * 0.8;
     }
     
-    // 2. Shake screen using simulated Perlin noise (sine wave approximation)
+    // Shake screen using simulated Perlin noise
     const screenContent = document.getElementById('camera-screen-content');
     if (screenContent) {
         if (simulatedShakeTimer > 0) {
-            simulatedShakeTimer -= 0.016; // 60fps frame rate approximation
+            simulatedShakeTimer -= 0.016;
             const power = simulatedShakeStrength * (simulatedShakeTimer / 0.45);
             
-            // Approximation of Perlin noise using multiple high frequency sine waves
             const shakeX = Math.sin(time * shakeFrequency) * power * 15;
             const shakeY = Math.cos(time * shakeFrequency * 1.3) * power * 15;
             
