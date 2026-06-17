@@ -22,15 +22,15 @@
             <nav class="slide-list">
                 <div class="slide-item active"><span class="slide-item-num">01</span><span class="slide-item-title">타이틀</span></div>
                 <div class="slide-item"><span class="slide-item-num">02</span><span class="slide-item-title">1. 프로젝트 개요</span></div>
-                <div class="slide-item"><span class="slide-item-num">03</span><span class="slide-item-title">2. 시스템 아키텍처</span></div>
-                <div class="slide-item"><span class="slide-item-num">04</span><span class="slide-item-title">3. 적용 자료구조/알고리즘</span></div>
-                <div class="slide-item"><span class="slide-item-num">05</span><span class="slide-item-title">4. 핵심 알고리즘: BFS</span></div>
-                <div class="slide-item"><span class="slide-item-num">06</span><span class="slide-item-title">5. BFS 시뮬레이션</span></div>
-                <div class="slide-item"><span class="slide-item-num">07</span><span class="slide-item-title">6. 코드: NPC & 스포너</span></div>
-                <div class="slide-item"><span class="slide-item-num">08</span><span class="slide-item-title">7. 코드: Player & Camera</span></div>
-                <div class="slide-item"><span class="slide-item-num">09</span><span class="slide-item-title">8. 카메라/피격 연출</span></div>
-                <div class="slide-item"><span class="slide-item-num">10</span><span class="slide-item-title">9. 실행 결과 및 분석</span></div>
-                <div class="slide-item"><span class="slide-item-num">11</span><span class="slide-item-title">10. 소감 및 역할 분담</span></div>
+                <div class="slide-item"><span class="slide-item-num">03</span><span class="slide-item-title">1. 개요: 인게임 샷</span></div>
+                <div class="slide-item"><span class="slide-item-num">04</span><span class="slide-item-title">2. 시스템 설계</span></div>
+                <div class="slide-item"><span class="slide-item-num">05</span><span class="slide-item-title">3. 적용 자료구조/알고리즘</span></div>
+                <div class="slide-item"><span class="slide-item-num">06</span><span class="slide-item-title">4. 핵심 알고리즘: BFS</span></div>
+                <div class="slide-item"><span class="slide-item-num">07</span><span class="slide-item-title">5. 코드: NPC & 스포너</span></div>
+                <div class="slide-item"><span class="slide-item-num">08</span><span class="slide-item-title">6. 코드: Player & Camera</span></div>
+                <div class="slide-item"><span class="slide-item-num">09</span><span class="slide-item-title">7. 게임 시연 영상</span></div>
+                <div class="slide-item"><span class="slide-item-num">10</span><span class="slide-item-title">8. 실행 결과 및 분석</span></div>
+                <div class="slide-item"><span class="slide-item-num">11</span><span class="slide-item-title">9. 소감 및 역할 분담</span></div>
                 <div class="slide-item"><span class="slide-item-num">12</span><span class="slide-item-title">부록: AI 활용 & 저장소</span></div>
             </nav>
             <div class="sidebar-footer">
@@ -80,29 +80,43 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 2: 프로젝트 개요 (응축) -->
+                <!-- SLIDE 2: 프로젝트 개요 -->
                 <section class="slide">
                     <div class="slide-header">
                         <span class="slide-category">1. 프로젝트 개요</span>
                         <h2 class="slide-title">기획 배경 및 메인 테마</h2>
                     </div>
+                    <div class="clean-concept-box">
+                        <div class="clean-concept-title">목표: 학교 급식실 도달하기</div>
+                        <ul class="bullet-list">
+                            <li><strong>급식실 도달 레이스</strong> — 복도에서 불규칙하게 움직이는 학생들을 피해 신속하게 급식실로 도달하는 3D 러닝 게임.</li>
+                            <li><strong>쿠키런 모티브</strong> — 스피디한 가속 주행 및 장애물 회피 메커니즘 차용.</li>
+                            <li><strong>예측 불가능성</strong> — 실시간 횡단 경로가 바뀌는 확률 이동 NPC 장애물 설계.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- SLIDE 3: 인게임 샷 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <span class="slide-category">1. 프로젝트 개요</span>
+                        <h2 class="slide-title">인게임 그래픽 샷</h2>
+                    </div>
                     <div class="grid-2">
-                        <div class="clean-concept-box">
-                            <div class="clean-concept-title">학교 복도를 배경으로 한 3D 레이스</div>
-                            <ul class="bullet-list" style="margin-bottom: 20px;">
-                                <li><strong>급식실 도달 레이스</strong> — 복도에서 불규칙하게 움직이는 학생들을 피해 신속하게 급식실로 도달하는 것을 목표로 기획.</li>
-                                <li><strong>쿠키런 모티브</strong> — 스피디한 가속 주행 및 장애물 회피 메커니즘 차용.</li>
-                                <li><strong>예측 불가능성</strong> — 실시간 횡단 경로가 바뀌는 확률 이동 NPC 장애물 설계.</li>
-                            </ul>
-                        </div>
                         <div class="slide-visual-wrapper">
                             <img src="images/hero.png" alt="In-game screenshot" class="slide-image">
-                            <div class="image-overlay-caption">가속 시 시야각(FOV)이 팽창하도록 조율된 로우폴리 3D 복도 주행 씬</div>
+                            <div class="image-overlay-caption">질주 가속도에 비례해 카메라 3차원 화각(FOV)이 조율된 인게임 통로 씬</div>
+                        </div>
+                        <div class="clean-concept-box">
+                            <p class="clean-concept-text">
+                                로우폴리 스타일 3D 학교 복도를 조형했습니다.<br>
+                                장애물에 피격되었을 때 라이프(하트)가 깎이며 화면이 거칠게 떨리는 Perlin Noise 카메라 피드백을 구축해 타격감을 높였습니다.
+                            </p>
                         </div>
                     </div>
                 </section>
 
-                <!-- SLIDE 3: 시스템 아키텍처 (응축) -->
+                <!-- SLIDE 4: 시스템 설계 -->
                 <section class="slide">
                     <div class="slide-header">
                         <span class="slide-category">2. 시스템 설계</span>
@@ -113,18 +127,17 @@
                             <img src="images/architecture.png" alt="System Modules" class="slide-image">
                         </div>
                         <div class="clean-concept-box">
-                            <div class="clean-concept-title">서브시스템 구성 및 제어 흐름</div>
                             <ul class="bullet-list" style="font-size: 0.85rem;">
-                                <li><strong>Player Control</strong> — 마우스 감도 방향 전환, 키보드 점프·슬라이드 제어.</li>
+                                <li><strong>Player Control</strong> — 마우스 턴 감도 회전각 전환, 키보드 점프·슬라이드 제어.</li>
                                 <li><strong>Camera System</strong> — 속도 기반 동적 FOV 변화, Perlin Noise 진동 피드백.</li>
                                 <li><strong>NPC AI</strong> — 격자 기반 탐색 및 확률 가중치 행동 결정.</li>
-                                <li><strong>로직 흐름</strong> — UI 팝업 감지 시 인풋 차단 → 매 프레임 속도 계산 및 이동 → AABB 충돌 검출 → 클리어/사망 분기.</li>
+                                <li><strong>로직 흐름</strong> — UI 오픈 시 인풋 차단 → 매 프레임 속도 계산 및 이동 → AABB 충돌 검출 → 성공/사망 분기.</li>
                             </ul>
                         </div>
                     </div>
                 </section>
 
-                <!-- SLIDE 4: 적용 자료구조 및 알고리즘 (응축) -->
+                <!-- SLIDE 5: 적용 자료구조 및 알고리즘 -->
                 <section class="slide">
                     <div class="slide-header">
                         <span class="slide-category">3. 적용 자료구조 및 알고리즘</span>
@@ -134,7 +147,7 @@
                         <div class="info-card" style="height: 100%;">
                             <h3 class="info-card-title" style="margin-bottom: 10px;">상태 관리 & 충돌 검출</h3>
                             <ul class="bullet-list" style="font-size: 0.85rem; margin: 0;">
-                                <li><strong>타이머 제어</strong> — 상태머신(FSM) 대신 무적/디버프 지속 주기를 float 변수로 선언하고 deltaTime 차감 업데이트 처리 (연산 부담 최소화).</li>
+                                <li><strong>타이머 제어</strong> — 상태머신(FSM) 대신 무적/디버프 주기를 float 변수로 선언하고 deltaTime 차감 업데이트 처리 (연산 최소화).</li>
                                 <li><strong>AABB 충돌 판정</strong> — 3D 공간 상에서 정렬된 박스 오버랩 연산(BoxCollider)으로 정밀한 피격 즉시 감출 및 이벤트 전파.</li>
                             </ul>
                         </div>
@@ -148,7 +161,7 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 5: 핵심 알고리즘: BFS 격자 최단경로 탐색 (응축) -->
+                <!-- SLIDE 6: 핵심 알고리즘: BFS 격자 최단경로 탐색 -->
                 <section class="slide">
                     <div class="slide-header">
                         <span class="slide-category">4. 핵심 알고리즘</span>
@@ -156,7 +169,6 @@
                     </div>
                     <div class="grid-2">
                         <div class="clean-concept-box">
-                            <div class="clean-concept-title">격자 좌표 변환 및 벽 우회 메커니즘</div>
                             <ul class="bullet-list" style="font-size: 0.85rem;">
                                 <li><strong>BFS 알고리즘 채택</strong> — 무작위 목표지 설정 시 복도 사물함이나 방 벽면에 NPC가 끼어 멈추는 오작동을 극복하기 위해 BFS 도입.</li>
                                 <li><strong>좌표계 실시간 변환</strong> — 유니티 월드 float 좌표를 격자 정수 인덱스(Vector2Int)로 변환해 BFS 최단 경로 산출 후, 다시 월드 waypoint로 복원.</li>
@@ -169,33 +181,10 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 6: BFS 시뮬레이션 -->
+                <!-- SLIDE 7: NPC & Spawner 코드 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">5. 시뮬레이션</span>
-                        <h2 class="slide-title">BFS 알고리즘 작동 데모</h2>
-                    </div>
-                    <div class="sim-container">
-                        <div class="sim-controls">
-                            <button class="sim-btn primary" onclick="rerollBfsTarget()">🎯 랜덤 목적지 탐색</button>
-                            <button class="sim-btn" onclick="initBfsGrid()">🔄 리셋</button>
-                            <div style="font-size: 0.8rem; margin-left: auto; color: var(--text-muted);">
-                                <span style="color: #0284c7; font-weight: bold;">● NPC</span> | 
-                                <span style="color: #dc2626; font-weight: bold;">● Target</span> | 
-                                <span style="color: #64748b; font-weight: bold;">█ 벽</span>
-                            </div>
-                        </div>
-                        <div class="sim-canvas-wrapper">
-                            <canvas id="bfs-canvas" class="sim-canvas"></canvas>
-                            <div class="sim-status" id="bfs-status">NPC: (2, 2) | Target: (11, 11)</div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SLIDE 7: NPC & Spawner 코드 (응축) -->
-                <section class="slide">
-                    <div class="slide-header">
-                        <span class="slide-category">6. 소스코드 분석</span>
+                        <span class="slide-category">5. 소스코드 분석</span>
                         <h2 class="slide-title">NPC AI 및 오토스포너</h2>
                     </div>
                     <div class="grid-2">
@@ -252,10 +241,10 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 8: Player & Camera 코드 (응축) -->
+                <!-- SLIDE 8: Player & Camera 코드 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">7. 소스코드 분석</span>
+                        <span class="slide-category">6. 소스코드 분석</span>
                         <h2 class="slide-title">플레이어 피격 및 카메라 셰이크</h2>
                     </div>
                     <div class="grid-2">
@@ -299,55 +288,26 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 9: 카메라 / 피격 연출 시뮬레이션 -->
+                <!-- SLIDE 9: 게임 시연 영상 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">8. 시뮬레이션</span>
-                        <h2 class="slide-title">카메라 & 피격 샌드박스</h2>
+                        <span class="slide-category">7. 시연 영상</span>
+                        <h2 class="slide-title">인게임 실제 구동 시연</h2>
                     </div>
-                    <div class="grid-2">
-                        <div class="camera-sim-wrapper">
-                            <div class="cam-slider-group">
-                                <div class="cam-slider-label">
-                                    <span>🏃 러닝 속도 조절</span>
-                                    <span><span id="sim-speed-val">5.0</span> m/s</span>
-                                </div>
-                                <input type="range" min="5" max="13" step="0.1" value="5" class="cam-slider" id="sim-speed-slider">
-                            </div>
-                            
-                            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                                <button class="sim-btn primary" style="flex: 1; padding: 10px;" onclick="triggerObstacleHit()">💥 장애물 충돌 (Perlin Shake)</button>
-                                <button class="sim-btn" style="padding: 10px 14px;" onclick="initCameraSim()">🔄 복구</button>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="camera-screen-box">
-                                <div class="camera-screen-content" id="camera-screen-content">
-                                    <div class="speed-lines" id="speed-lines"></div>
-                                    <div class="camera-hud">
-                                        <div>FOV: <span id="sim-fov-val">60</span>°</div>
-                                    </div>
-                                    <div class="camera-hearts">
-                                        <div class="heart-icon"></div>
-                                        <div class="heart-icon"></div>
-                                        <div class="heart-icon"></div>
-                                    </div>
-                                    <div class="camera-scene-elements" id="camera-elements">
-                                        <div class="camera-track">
-                                            <div class="camera-player"></div>
-                                            <div class="camera-obstacle-obj"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="flex-center" style="width: 100%; height: 100%;">
+                        <div class="slide-visual-wrapper" style="max-height: 420px; width: 100%; max-width: 800px;">
+                            <video id="demo-video" controls class="slide-image" style="object-fit: contain; background: #000;">
+                                <source src="videos/demo.mp4" type="video/mp4">
+                                브라우저가 비디오 재생을 지원하지 않습니다.
+                            </video>
                         </div>
                     </div>
                 </section>
 
-                <!-- SLIDE 10: 결과 및 분석 (응축) -->
+                <!-- SLIDE 10: 결과 및 분석 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">9. 실행 결과 및 분석</span>
+                        <span class="slide-category">8. 실행 결과 및 분석</span>
                         <h2 class="slide-title">알고리즘 동작 결과 및 분석</h2>
                     </div>
                     <div class="grid-2">
@@ -365,10 +325,10 @@
                     </div>
                 </section>
 
-                <!-- SLIDE 11: 소감 및 역할 분담 (응축) -->
+                <!-- SLIDE 11: 소감 및 역할 분담 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">10. 소감 및 역할 분담</span>
+                        <span class="slide-category">9. 소감 및 역할 분담</span>
                         <h2 class="slide-title">수행 소감 및 역할 정리</h2>
                     </div>
                     <div class="grid-2">
@@ -394,7 +354,7 @@
                 <!-- SLIDE 12: 부록 - AI 활용 & 저장소 -->
                 <section class="slide">
                     <div class="slide-header">
-                        <span class="slide-category">Appendix</span>
+                        <span class="slide-category">부록</span>
                         <h2 class="slide-title">AI 활용 및 저장소</h2>
                     </div>
                     <div class="grid-2">
@@ -427,8 +387,8 @@
                 </div>
                 
                 <div class="floating-actions">
-                    <button class="header-btn" onclick="showSlide(5)">BFS 시뮬레이션</button>
-                    <button class="header-btn" onclick="showSlide(8)">카메라 시뮬레이션</button>
+                    <button class="header-btn" onclick="showSlide(6)">코드 분석</button>
+                    <button class="header-btn" onclick="showSlide(8)">시연 영상</button>
                 </div>
             </footer>
 

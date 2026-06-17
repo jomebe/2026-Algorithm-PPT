@@ -143,20 +143,14 @@ function setupCodeTabs() {
     });
 }
 
-// Handle trigger points for simulators
+// Handle trigger points for simulators and media elements
 function handleSlideVisuals(slideIdx) {
-    // Slide index 5 = BFS Pathfinder Simulator
-    if (slideIdx === 5) {
-        startBfsSimulation();
-    } else {
-        stopBfsSimulation();
-    }
-
-    // Slide index 8 = Camera/Screen Shake Simulation
-    if (slideIdx === 8) {
-        initCameraSim();
-    } else {
-        stopCameraSim();
+    // Pause demo video if user navigates away from Slide 9 (index 8)
+    const video = document.getElementById('demo-video');
+    if (video) {
+        if (slideIdx !== 8) {
+            video.pause();
+        }
     }
 }
 
