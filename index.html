@@ -147,15 +147,15 @@
                         <div class="info-card" style="height: 100%;">
                             <h3 class="info-card-title" style="margin-bottom: 10px;">상태 관리 & 충돌 검출</h3>
                             <ul class="bullet-list" style="font-size: 0.85rem; margin: 0;">
-                                <li><strong>타이머 제어</strong> — 상태머신(FSM) 대신 무적/디버프 주기를 float 변수로 선언하고 deltaTime 차감 업데이트 처리 (연산 최소화).</li>
-                                <li><strong>AABB 충돌 판정</strong> — 3D 공간 상에서 정렬된 박스 오버랩 연산(BoxCollider)으로 정밀한 피격 즉시 감출 및 이벤트 전파.</li>
+                                <li><strong>타이머 제어</strong> — 상태머신(FSM) 대신 무적 쿨타임/감속 디버프 주기를 float 변수로 관리하고 deltaTime 차감 업데이트 처리 (연산 최소화).</li>
+                                <li><strong>AABB 충돌 판정</strong> — 3D 공간 상에서 정렬된 박스 영역 검사(CharacterController 및 Collider)를 통해 플레이어 피격 즉시 감출 및 이벤트 전파.</li>
                             </ul>
                         </div>
                         <div class="info-card" style="height: 100%;">
                             <h3 class="info-card-title" style="margin-bottom: 10px;">의사 결정 & 경로 평활화</h3>
                             <ul class="bullet-list" style="font-size: 0.85rem; margin: 0;">
-                                <li><strong>확률 가중치 행동 선택</strong> — 내부 주기마다 난수를 생성하고 직진, 대기, 조향 가중치 테이블에 따라 목적 좌표 능동 변경.</li>
-                                <li><strong>선형 보간 (Vector3.Lerp)</strong> — 선정된 목표 좌표로 적이 순간이동하지 않고 부드럽게 미끄러지며 나아가도록 곡선 보행 렌더링.</li>
+                                <li><strong>확률 반경 내 이동 목표 선택</strong> — <code>roamRadius</code> 반경 내 무작위 목표 구면(insideUnitSphere)을 타겟으로 선택 후 격자 기반 BFS 경로 생성.</li>
+                                <li><strong>이동 제어 및 회전 보간</strong> — <code>Vector3.MoveTowards</code>로 등속 이동하고, <code>Quaternion.Slerp</code>로 진행 방향을 향해 부드럽게 회전 연출.</li>
                             </ul>
                         </div>
                     </div>
@@ -170,9 +170,9 @@
                     <div class="grid-2">
                         <div class="clean-concept-box">
                             <ul class="bullet-list" style="font-size: 0.85rem;">
-                                <li><strong>BFS 알고리즘 채택</strong> — 무작위 목표지 설정 시 복도 사물함이나 방 벽면에 NPC가 끼어 멈추는 오작동을 극복하기 위해 BFS 도입.</li>
-                                <li><strong>좌표계 실시간 변환</strong> — 유니티 월드 float 좌표를 격자 정수 인덱스(Vector2Int)로 변환해 BFS 최단 경로 산출 후, 다시 월드 waypoint로 복원.</li>
-                                <li><strong>벽 충돌 차단</strong> — 큐 노드 방문 도중 벽 인덱스 검사(<code>bfsObstacles.Contains</code>)를 거쳐 장애물을 자연스럽게 우회.</li>
+                                <li><strong>BFS 알고리즘 채택</strong> — 수행평가 설명 및 최단경로 산출에 적합하며, 무작위 횡단 경로를 격자 형태로 탐색해 경로의 완성도를 증명.</li>
+                                <li><strong>좌표계 실시간 변환</strong> — 유니티 월드 float 좌표를 2D 격자 정수 인덱스(Vector2Int)로 변환해 BFS 최단 경로 산출 후, 다시 월드 waypoint로 복원.</li>
+                                <li><strong>탐색 범위 제한</strong> — 무한 탐색 및 병목을 방지하기 위해 생성 반경인 <code>radiusCells</code> 범위 내에서만 인접 칸을 큐에 삽입하도록 제약.</li>
                             </ul>
                         </div>
                         <div class="slide-visual-wrapper">
@@ -195,48 +195,48 @@
                             </div>
                             <div class="code-container">
 <pre id="code-obstacle" class="code-snippet" style="display: block;">
-<span class="code-comment">// BFS 최단경로 복원 알고리즘</span>
+<span class="code-comment">// Obstacle.cs: BFS 기반 경로 탐색 및 복원</span>
 <span class="code-keyword">private void</span> <span class="code-method">BuildBfsPath</span>(Vector3 destination) {
     path.<span class="code-method">Clear</span>(); pathIndex = <span class="code-number">0</span>;
     <span class="code-keyword">float</span> cellSize = Mathf.<span class="code-method">Max</span>(<span class="code-number">0.1f</span>, bfsCellSize);
+    <span class="code-keyword">int</span> radiusCells = Mathf.<span class="code-method">Max</span>(<span class="code-number">1</span>, Mathf.<span class="code-method">CeilToInt</span>(roamRadius / cellSize));
     Vector2Int start = <span class="code-method">WorldToCell</span>(transform.position, cellSize);
     Vector2Int goal = <span class="code-method">WorldToCell</span>(destination, cellSize);
     Queue&lt;Vector2Int&gt; queue = <span class="code-keyword">new</span> Queue&lt;Vector2Int&gt;();
     Dictionary&lt;Vector2Int, Vector2Int&gt; previous = <span class="code-keyword">new</span> Dictionary&lt;Vector2Int, Vector2Int&gt;();
-    queue.<span class="code-method">Enqueue</span>(start); previous[start] = start;
 
+    queue.<span class="code-method">Enqueue</span>(start); previous[start] = start;
     <span class="code-keyword">while</span> (queue.Count > <span class="code-number">0</span>) {
         Vector2Int current = queue.<span class="code-method">Dequeue</span>();
         <span class="code-keyword">if</span> (current == goal) <span class="code-keyword">break</span>;
-        <span class="code-keyword">foreach</span> (Vector2Int dir <span class="code-keyword">in</span> directions) {
-            Vector2Int next = current + dir;
-            <span class="code-keyword">if</span> (previous.<span class="code-method">ContainsKey</span>(next)) <span class="code-keyword">continue</span>;
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-number">0</span>; i &lt; directions.Length; i++) {
+            Vector2Int next = current + directions[i];
+            <span class="code-keyword">if</span> (previous.<span class="code-method">ContainsKey</span>(next) || next.sqrMagnitude > radiusCells * radiusCells) <span class="code-keyword">continue</span>;
             previous[next] = current; queue.<span class="code-method">Enqueue</span>(next);
         }
     }
 }
 </pre>
 <pre id="code-spawner" class="code-snippet" style="display: none;">
-<span class="code-comment">// 최소 거리 유지 스포닝 알고리즘</span>
-<span class="code-keyword">public void</span> <span class="code-method">SpawnBatch</span>() {
-    GameObject[] targets = GameObject.<span class="code-method">FindGameObjectsWithTag</span>(targetTag);
-    <span class="code-keyword">int</span> spawned = <span class="code-number">0</span>;
-    <span class="code-keyword">while</span> (spawned &lt; spawnCount) {
-        GameObject target = targets[Random.<span class="code-method">Range</span>(<span class="code-number">0</span>, targets.Length)];
-        Vector3 pos = <span class="code-method">GetTopPosition</span>(target) + Vector3.up * spawnHeightOffset;
-        <span class="code-keyword">if</span> (<span class="code-method">IsFarEnough</span>(pos)) {
-            Instantiate(obstaclePrefabs[Random.<span class="code-method">Range</span>(<span class="code-number">0</span>, obstaclePrefabs.Length)], pos, Quaternion.identity);
-            usedPositions.<span class="code-method">Add</span>(pos); spawned++;
-        }
-    }
+<span class="code-comment">// ObstacleSpawner.cs: targetTag(yumbabo) 오브젝트 상단에 장애물 생성</span>
+<span class="code-keyword">private void</span> <span class="code-method">SpawnOnTarget</span>(GameObject target) {
+    <span class="code-keyword">if</span> (target == null) <span class="code-keyword">return</span>;
+    Vector3 pos = <span class="code-method">GetTopPosition</span>(target) + Vector3.up * spawnHeightOffset;
+    <span class="code-keyword">if</span> (minSpacing > <span class="code-number">0f</span> && !<span class="code-method">IsFarEnough</span>(pos)) <span class="code-keyword">return</span>; <span class="code-comment">// 최소 거리 체크</span>
+
+    GameObject prefab = obstaclePrefabs[Random.<span class="code-method">Range</span>(<span class="code-number">0</span>, obstaclePrefabs.Length)];
+    Quaternion rotation = randomYaw ? Quaternion.<span class="code-method">Euler</span>(<span class="code-number">0f</span>, Random.<span class="code-method">Range</span>(<span class="code-number">0f</span>, <span class="code-number">360f</span>), <span class="code-number">0f</span>) : Quaternion.identity;
+    Transform parent = spawnedParent != null ? spawnedParent : transform;
+    <span class="code-method">Instantiate</span>(prefab, pos, rotation, parent);
+    usedPositions.<span class="code-method">Add</span>(pos);
 }
 </pre>
                             </div>
                         </div>
                         <div class="code-annotation">
-                            <strong>최적화 설계 핵심 요약:</strong><br>
-                            - <code>sqrMagnitude</code> 기반 가시거리 최적화로 플레이어 근접 NPC만 BFS를 활성화하여 메모리/연산 병목 방지.<br>
-                            - <code>IsFarEnough()</code> 오토스포닝 거리 검사로 NPC 밀집 중첩 렌더링 버그 차단.
+                            <strong>최적화 및 스폰 제어 설계 요약:</strong><br>
+                            - <code>sqrMagnitude</code> 및 <code>radiusCells</code> 범위 구속을 통해 BFS 탐색 큐 오버플로우와 연산 병목을 미연에 방지.<br>
+                            - <code>IsFarEnough()</code> 거리 감지 검사 필터링으로 스폰 시 NPC 간 겹침 렌더링 및 물리 충돌 버그 원천 차단.
                         </div>
                     </div>
                 </section>
@@ -250,25 +250,29 @@
                     <div class="grid-2">
                         <div class="code-viewer">
                             <div class="code-tabs">
-                                <button class="code-tab active" data-target="code-player">PlayerController.cs</button>
+                                <button class="code-tab active" data-target="code-player">LunchRushPlayerController.cs</button>
                                 <button class="code-tab" data-target="code-camera">FollowCamera.cs</button>
                             </div>
                             <div class="code-container">
 <pre id="code-player" class="code-snippet" style="display: block;">
-<span class="code-comment">// 피격 데미지 및 감속 디버프 트리거</span>
+<span class="code-comment">// LunchRushPlayerController.cs: 장애물 피격 처리 및 체력 감소</span>
 <span class="code-keyword">public void</span> <span class="code-method">HitObstacle</span>(<span class="code-keyword">string</span> obstacleName) {
     <span class="code-keyword">if</span> (cleared || hitCooldownTimer > <span class="code-number">0f</span>) <span class="code-keyword">return</span>;
     hitCooldownTimer = hitCooldown; <span class="code-comment">// 무적 돌입</span>
-    slowTimer = slowDuration;       <span class="code-comment">// 감속 돌입</span>
+    slowTimer = slowDuration;       <span class="code-comment">// 감속 디버프</span>
     currentSpeed = Mathf.<span class="code-method">Max</span>(startSpeed, currentSpeed - hitSpeedLoss);
     hearts = Mathf.<span class="code-method">Max</span>(<span class="code-number">0</span>, hearts - <span class="code-number">1</span>);
     heartUI?.<span class="code-method">SetHearts</span>(hearts, maxHearts);
+
+    <span class="code-keyword">if</span> (followCamera == null) {
+        followCamera = FindAnyObjectByType&lt;FollowCamera&gt;();
+    }
     followCamera?.<span class="code-method">Shake</span>(<span class="code-number">0.45f</span>, hearts &lt;= <span class="code-number">0</span> ? <span class="code-number">1.2f</span> : <span class="code-number">0.75f</span>);
     <span class="code-keyword">if</span> (hearts &lt;= <span class="code-number">0</span>) <span class="code-method">Die</span>(); 
 }
 </pre>
 <pre id="code-camera" class="code-snippet" style="display: none;">
-<span class="code-comment">// Perlin Noise 카메라 셰이킹 알고리즘</span>
+<span class="code-comment">// FollowCamera.cs: Perlin Noise 카메라 셰이크</span>
 <span class="code-keyword">private</span> Vector3 <span class="code-method">GetShakeOffset</span>() {
     <span class="code-keyword">if</span> (shakeTimer &lt;= <span class="code-number">0f</span>) <span class="code-keyword">return</span> Vector3.zero;
     shakeTimer -= Time.deltaTime;
@@ -282,8 +286,8 @@
                         </div>
                         <div class="code-annotation">
                             <strong>비선형 카메라 피드백:</strong><br>
-                            - 임의 난수가 유발하는 눈의 피로도를 낮추기 위해, 파동이 연속되는 <code>Mathf.PerlinNoise</code>를 사용해 생동감 넘치고 자연스러운 진동 구현.<br>
-                            - 피격 시 <code>hitCooldownTimer</code> 가동으로 중복 연쇄 타격 버그 제거.
+                            - 임의 난수가 유발하는 화면 멀미와 눈의 피로를 최소화하기 위해, 부드러운 연속 파동인 <code>Mathf.PerlinNoise</code>를 도입하여 생동감 있는 충격 진동 구현.<br>
+                            - 피격 시 <code>hitCooldownTimer</code> (무적 쿨타임) 가동으로 장애물 다중 중첩 피격 및 연쇄 감속 판정 방지.
                         </div>
                     </div>
                 </section>
