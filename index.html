@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알고리즘 프로젝트 발표자료 - 랜덤 장애물 회피 게임 개발</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Background glowing meshes -->
+    <div class="bg-glow-container">
+        <div class="bg-glow-circle glow-1"></div>
+        <div class="bg-glow-circle glow-2"></div>
+        <div class="bg-glow-circle glow-3"></div>
+    </div>
+
+    <div class="app-container">
+        
+        <!-- Sidebar slide list -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">알고리즘 발표</h1>
+                <p class="sidebar-subtitle">급식실을 향해 달려라!</p>
+            </div>
+            <nav class="slide-list">
+                <div class="slide-item active">
+                    <span class="slide-item-num">01</span>
+                    <span class="slide-item-title">타이틀</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">02</span>
+                    <span class="slide-item-title">1. 프로젝트 개요</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">03</span>
+                    <span class="slide-item-title">2. 시스템 아키텍처</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">04</span>
+                    <span class="slide-item-title">3. 적용 자료구조/알고리즘</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">05</span>
+                    <span class="slide-item-title">4. 핵심 알고리즘: BFS</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">06</span>
+                    <span class="slide-item-title">5. BFS 시뮬레이션</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">07</span>
+                    <span class="slide-item-title">6. C# 코드 분석 (NPC)</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">08</span>
+                    <span class="slide-item-title">7. C# 코드 분석 (Player)</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">09</span>
+                    <span class="slide-item-title">8. 카메라/피격 연출</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">10</span>
+                    <span class="slide-item-title">9. 실행 결과 및 분석</span>
+                </div>
+                <div class="slide-item">
+                    <span class="slide-item-num">11</span>
+                    <span class="slide-item-title">소감 & 부록</span>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <span>3학년 6반</span>
+                <span>황동화 / 유은재</span>
+            </div>
+        </aside>
+
+        <!-- Presentation Main View -->
+        <main class="presentation-area">
+            
+            <!-- Top Controls Header -->
+            <header class="presentation-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar-btn" id="sidebar-toggle-btn" data-tooltip="슬라이드 리스트 토글">☰</button>
+                    <span class="presentation-title">알고리즘 수행평가 발표 자료</span>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" id="autoplay-btn" data-tooltip="자동 슬라이드 재생">▶ Autoplay</button>
+                    <button class="header-btn" id="fullscreen-btn" data-tooltip="전체 화면 토글">⛶ Fullscreen</button>
+                </div>
+            </header>
+
+            <!-- Slides Display Frame -->
+            <div class="slides-container">
+
+                <!-- SLIDE 1: Cover Page -->
+                <section class="slide cover-layout active">
+                    <div class="cover-header">
+                        <span class="cover-badge">Algorithm Project Report</span>
+                        <span class="cover-badge" style="border-color: var(--accent-purple); color: var(--accent-purple);">Unity 3D Engine</span>
+                    </div>
+                    <div class="cover-body">
+                        <h2 class="cover-title">인공지능을 활용한<br>랜덤 장애물 회피 게임 개발</h2>
+                        <h3 class="cover-subtitle">알고리즘 프로젝트 보고서 및 발표자료</h3>
+                    </div>
+                    <div class="cover-footer">
+                        <div class="author-info">
+                            <div class="author-box">
+                                <span class="author-role">기획 & 개발 & 발표자료</span>
+                                <span class="author-name">30619 황동화</span>
+                            </div>
+                            <div class="author-box">
+                                <span class="author-role">기획 & 개발 & 보고서작성</span>
+                                <span class="author-name">30610 유은재</span>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">
+                            반응형 정적 발표 시스템 • 2026
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 2: 개요 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Introduction</span>
+                            <h2 class="slide-title">1. 프로젝트 개요</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div class="info-card" style="margin-bottom: 15px;">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon">🎯</div>
+                                    <h3 class="info-card-title">메인 테마 및 기획 의도</h3>
+                                </div>
+                                <p class="info-card-desc">
+                                    인기 런게임 '쿠키런'의 긴장감 높은 메커니즘을 3D 환경에 이식했습니다. 플레이어는 자동으로 점진 가속하며 전진하고, 학교 건물을 모티브로 디자인된 맵에서 <strong>급식실을 향해 달려갑니다.</strong>
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon icon-purple">⚡</div>
+                                    <h3 class="info-card-title">핵심 차별화 기술</h3>
+                                </div>
+                                <p class="info-card-desc">
+                                    고정되어 패턴이 단순한 일반적인 런게임 장애물과 다릅니다. 이 게임에는 <strong>확률 기반 무작위 이동 알고리즘</strong>이 적용된 학생 NPC 장애물이 동작하여 플레이어에게 고도의 동체시력과 순발력을 요구합니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="slide-visual-wrapper">
+                                <img src="images/hero.png" alt="Game Hero Shot" class="slide-image">
+                                <div class="image-overlay-caption">급식실로 달려가는 3D 러닝 게임 (LunchRush) 인게임 컨셉 샷</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 3: 시스템 설계 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">System Architecture</span>
+                            <h2 class="slide-title">2. 시스템 아키텍처</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div class="slide-visual-wrapper" style="max-height: 480px;">
+                                <img src="images/architecture.png" alt="System Architecture Diagram" class="slide-image">
+                                <div class="image-overlay-caption">Unity 6 엔진 기반 모듈형 구조도</div>
+                            </div>
+                        </div>
+                        <div>
+                            <ul class="bullet-list">
+                                <li>
+                                    <strong>Player Control System</strong>
+                                    <p>Unity New Input System 연계. 마우스 델타 값과 감도를 조합해 캐릭터를 부부럽게 좌우 회전시키며, 점프·슬라이딩·대쉬 입력을 물리 연산(CharacterController)과 결합.</p>
+                                </li>
+                                <li>
+                                    <strong>Dynamic Camera System</strong>
+                                    <p>플레이어 속도와 대쉬 상태에 따라 FOV(시야각)를 부드럽게 조정하여 스피드감 부여. 피격 감지 시 Perlin Noise 알고리즘 기반 거친 카메라 흔들림 수행.</p>
+                                </li>
+                                <li>
+                                    <strong>NPC AI System</strong>
+                                    <p>각 NPC는 독립된 상태 타이머를 지니며, 가중치 기반 난수 연산으로 목표 좌표를 선정한 뒤 격자 좌표계 기반 최단경로 탐색 수행.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 4: 적용 자료구조 및 알고리즘 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Data Structure & Algorithm</span>
+                            <h2 class="slide-title">3. 적용된 자료구조 및 알고리즘</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="info-card" style="height: 100%;">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-purple">🧠</div>
+                                <h3 class="info-card-title">확률 가중치 및 선형 보간 (Lerp)</h3>
+                            </div>
+                            <ul class="bullet-list purple" style="margin-top: 15px;">
+                                <li>
+                                    <strong>확률 가중치 기반 무작위 타겟 선택</strong>
+                                    <p>NPC는 내장된 타이머가 특정 주기에 도달하면, 난수를 생성하고 사전에 정의된 각 행동 확률 가중치에 맞춰 다음 목표 지점 설정.</p>
+                                </li>
+                                <li>
+                                    <strong>선형 보간 (Vector3.Lerp) 경로 평활화</strong>
+                                    <p>목표 좌표로 NPC가 텔레포트하는 어색함을 막기 위해 프레임에 독립적인 <code>Vector3.Lerp</code>를 적용해 실제 학생이 걷는 것 같은 자연스러운 움직임 유도.</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="info-card" style="height: 100%;">
+                            <div class="info-card-header">
+                                <div class="info-card-icon icon-gold">⚡</div>
+                                <h3 class="info-card-title">타이머 구조 및 AABB 충돌</h3>
+                            </div>
+                            <ul class="bullet-list gold" style="margin-top: 15px;">
+                                <li>
+                                    <strong>상태 기반 타이머 구조 (Timer Management)</strong>
+                                    <p>복잡하고 무거운 상태 머신(FSM) 대신, 무적시간(<code>hitCooldownTimer</code>), 감속시간(<code>slowTimer</code>) 등 실수형 타이머를 매 프레임 업데이트 연산으로 관리.</p>
+                                </li>
+                                <li>
+                                    <strong>AABB 충돌 판정 및 트리거</strong>
+                                    <p>Unity BoxCollider 및 CharacterController 연산을 활용해 3차원 바운딩 박스가 겹치는 순간 실시간 감지, 플레이어 체력 차감 및 화면 진동 이벤트 트리거 연계.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 5: BFS 경로 탐색 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Core Pathfinder Algorithm</span>
+                            <h2 class="slide-title">4. 핵심 알고리즘: BFS 격자 경로 탐색</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 15px;">
+                                이 게임의 적(NPC 학생)은 무지성으로 전진하지 않고, 자신의 시작 위치(Origin) 주변 격자 맵을 바탕으로 <strong>BFS(너비 우선 탐색) 알고리즘</strong>을 사용해 유연하게 목표를 향해 이동합니다.
+                            </p>
+                            <div class="info-card" style="background: rgba(0, 242, 254, 0.03); border-color: rgba(0, 242, 254, 0.2); padding: 18px;">
+                                <h4 style="color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 8px;">동작 단계:</h4>
+                                <ol class="bullet-list" style="margin: 0; padding-left: 5px;">
+                                    <li>NPC는 월드 좌표계를 <code>WorldToCell()</code> 함수를 통해 격자 셀(<code>Vector2Int</code>)로 변환합니다.</li>
+                                    <li>목표 셀이 결정되면 시작 셀에서부터 최단경로 탐색을 위한 BFS 큐(<code>Queue&lt;Vector2Int&gt;</code>) 연산을 실행합니다.</li>
+                                    <li>이미 탐색한 경로 및 벽(장애물) 정보를 필터링하여 최단 경로를 구성하는 노드 리스트를 복원하고, 다시 월드 좌표로 되돌려 경로(Waypoints)로 삼습니다.</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="slide-visual-wrapper">
+                                <img src="images/bfs.png" alt="BFS Pathfinding Grid" class="slide-image">
+                                <div class="image-overlay-caption">격자 상에서 BFS 최단 경로(파란색 선)를 역추적하는 알고리즘 다이어그램</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 6: BFS 시뮬레이션 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Interactive Demo</span>
+                            <h2 class="slide-title">5. 인터랙티브 BFS 경로 탐색 시뮬레이션</h2>
+                        </div>
+                        <div class="slide-subtitle-desc">실제 C# 코드를 기반으로 제작한 JS BFS 알고리즘 연산 및 보간 시뮬레이터</div>
+                    </div>
+                    <div class="sim-container">
+                        <div class="sim-controls">
+                            <button class="sim-btn primary" onclick="rerollBfsTarget()">🎯 새로운 목표 탐색 (Reroll)</button>
+                            <button class="sim-btn" onclick="initBfsGrid()">🔄 그리드 리셋</button>
+                            <div style="font-size: 0.8rem; margin-left: auto; color: var(--text-secondary);">
+                                범례: <span style="color: #00f2fe; font-weight: bold;">● NPC</span> | 
+                                <span style="color: #ef4444; font-weight: bold;">● Target</span> | 
+                                <span style="color: #8b5cf6; font-weight: bold;">█ 벽(장애물)</span>
+                            </div>
+                        </div>
+                        <div class="sim-canvas-wrapper">
+                            <canvas id="bfs-canvas" class="sim-canvas"></canvas>
+                            <div class="sim-status" id="bfs-status">NPC Position: (2, 2) | Target: (11, 11)</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 7: C# 코드 분석 1 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Unity C# Script Analysis</span>
+                            <h2 class="slide-title">6. 핵심 코드 분석: NPC 이동 & 스포너</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="code-viewer">
+                            <div class="code-tabs">
+                                <button class="code-tab active" data-target="code-obstacle">Obstacle.cs (BFS)</button>
+                                <button class="code-tab" data-target="code-spawner">ObstacleSpawner.cs</button>
+                            </div>
+                            <div class="code-container">
+<pre id="code-obstacle" class="code-snippet" style="display: block;">
+<span class="code-comment">// Obstacle.cs 내의 BFS 최단경로 산출 알고리즘</span>
+<span class="code-keyword">private void</span> <span class="code-method">BuildBfsPath</span>(Vector3 destination) {
+    path.<span class="code-method">Clear</span>();
+    pathIndex = <span class="code-number">0</span>;
+    <span class="code-keyword">float</span> cellSize = Mathf.<span class="code-method">Max</span>(<span class="code-number">0.1f</span>, bfsCellSize);
+    Vector2Int start = <span class="code-method">WorldToCell</span>(transform.position, cellSize);
+    Vector2Int goal = <span class="code-method">WorldToCell</span>(destination, cellSize);
+    
+    Queue&lt;Vector2Int&gt; queue = <span class="code-keyword">new</span> Queue&lt;Vector2Int&gt;();
+    Dictionary&lt;Vector2Int, Vector2Int&gt; previous = <span class="code-keyword">new</span> Dictionary&lt;Vector2Int, Vector2Int&gt;();
+    queue.<span class="code-method">Enqueue</span>(start);
+    previous[start] = start;
+
+    <span class="code-keyword">while</span> (queue.Count > <span class="code-number">0</span>) {
+        Vector2Int current = queue.<span class="code-method">Dequeue</span>();
+        <span class="code-keyword">if</span> (current == goal) <span class="code-keyword">break</span>;
+        <span class="code-keyword">foreach</span> (Vector2Int dir <span class="code-keyword">in</span> directions) {
+            Vector2Int next = current + dir;
+            <span class="code-keyword">if</span> (previous.<span class="code-method">ContainsKey</span>(next)) <span class="code-keyword">continue</span>;
+            previous[next] = current;
+            queue.<span class="code-method">Enqueue</span>(next);
+        }
+    }
+}
+</pre>
+<pre id="code-spawner" class="code-snippet" style="display: none;">
+<span class="code-comment">// ObstacleSpawner.cs 내의 최소 거리 배치 스포닝</span>
+<span class="code-keyword">public void</span> <span class="code-method">SpawnBatch</span>() {
+    GameObject[] targets = GameObject.<span class="code-method">FindGameObjectsWithTag</span>(targetTag);
+    <span class="code-keyword">int</span> spawned = <span class="code-number">0</span>;
+    <span class="code-keyword">while</span> (spawned &lt; spawnCount) {
+        GameObject target = targets[Random.<span class="code-method">Range</span>(<span class="code-number">0</span>, targets.Length)];
+        Vector3 pos = <span class="code-method">GetTopPosition</span>(target) + Vector3.up * spawnHeightOffset;
+        <span class="code-comment">// 스폰 오브젝트 간 겹침 방지 검사</span>
+        <span class="code-keyword">if</span> (<span class="code-method">IsFarEnough</span>(pos)) {
+            Instantiate(obstaclePrefabs[Random.<span class="code-method">Range</span>(<span class="code-number">0</span>, obstaclePrefabs.Length)], pos, Quaternion.identity);
+            usedPositions.<span class="code-method">Add</span>(pos);
+            spawned++;
+        }
+    }
+}
+</pre>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: center;">
+                            <div class="code-annotation">
+                                <strong>최적화 설계 포인트:</strong><br>
+                                게임 내 많은 수의 NPC가 동시에 경로 연산을 수행하여 렉이 발생하는 현상을 방지하기 위해 <code>sqrMagnitude</code> 가시거리 연산을 통해 플레이어 근처의 활성화된 NPC만 깨어나 BFS를 수행하도록 최적화했습니다.
+                            </div>
+                            <div class="code-annotation" style="border-left-color: var(--accent-cyan); margin-top: 15px;">
+                                <strong>스폰 충돌 방지:</strong><br>
+                                <code>IsFarEnough()</code> 메소드를 활용해, 이미 생성된 NPC 간의 거리를 <code>minSpacing</code> 제곱값(sqrMagnitude)으로 빠르게 비교 연산하여 연산 효율을 높였습니다.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 8: C# 코드 분석 2 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Unity C# Script Analysis</span>
+                            <h2 class="slide-title">7. 핵심 코드 분석: 플레이어 & 카메라</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="code-viewer">
+                            <div class="code-tabs">
+                                <button class="code-tab active" data-target="code-player">PlayerController.cs</button>
+                                <button class="code-tab" data-target="code-camera">FollowCamera.cs (Shake)</button>
+                            </div>
+                            <div class="code-container">
+<pre id="code-player" class="code-snippet" style="display: block;">
+<span class="code-comment">// PlayerController.cs 피격 및 속도 감속 로직</span>
+<span class="code-keyword">public void</span> <span class="code-method">HitObstacle</span>(<span class="code-keyword">string</span> obstacleName) {
+    <span class="code-keyword">if</span> (cleared || hitCooldownTimer > <span class="code-number">0f</span>) <span class="code-keyword">return</span>;
+    
+    hitCooldownTimer = hitCooldown; <span class="code-comment">// 무적 타이머</span>
+    slowTimer = slowDuration;       <span class="code-comment">// 감속 타이머</span>
+    currentSpeed = Mathf.<span class="code-method">Max</span>(startSpeed, currentSpeed - hitSpeedLoss);
+    hearts = Mathf.<span class="code-method">Max</span>(<span class="code-number">0</span>, hearts - <span class="code-number">1</span>);
+    heartUI?.<span class="code-method">SetHearts</span>(hearts, maxHearts);
+    
+    <span class="code-comment">// 카메라 Perlin Noise 흔들림 연출 연계</span>
+    followCamera?.<span class="code-method">Shake</span>(<span class="code-number">0.45f</span>, hearts &lt;= <span class="code-number">0</span> ? <span class="code-number">1.2f</span> : <span class="code-number">0.75f</span>);
+    
+    <span class="code-keyword">if</span> (hearts &lt;= <span class="code-number">0</span>) {
+        <span class="code-method">Die</span>(); <span class="code-comment">// 게임오버 코루틴 실행</span>
+    }
+}
+</pre>
+<pre id="code-camera" class="code-snippet" style="display: none;">
+<span class="code-comment">// FollowCamera.cs Perlin Noise 카메라 셰이크 알고리즘</span>
+<span class="code-keyword">private</span> Vector3 <span class="code-method">GetShakeOffset</span>() {
+    <span class="code-keyword">if</span> (shakeTimer &lt;= <span class="code-number">0f</span>) <span class="code-keyword">return</span> Vector3.zero;
+    
+    shakeTimer -= Time.deltaTime;
+    <span class="code-keyword">float</span> power = shakeStrength * (shakeTimer / shakeDuration);
+    
+    <span class="code-comment">// 단순 Random 난수가 아닌 Perlin Noise로 부드러운 거친 진동 구현</span>
+    <span class="code-keyword">float</span> x = (Mathf.<span class="code-method">PerlinNoise</span>(Time.time * shakeFrequency, <span class="code-number">0.17f</span>) - <span class="code-number">0.5f</span>) * <span class="code-number">2f</span>;
+    <span class="code-keyword">float</span> y = (Mathf.<span class="code-method">PerlinNoise</span>(<span class="code-number">0.41f</span>, Time.time * shakeFrequency) - <span class="code-number">0.5f</span>) * <span class="code-number">2f</span>;
+    
+    <span class="code-keyword">return</span> transform.right * x * power + transform.up * y * power;
+}
+</pre>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; justify-content: center;">
+                            <div class="code-annotation">
+                                <strong>비선형 카메라 피드백:</strong><br>
+                                <code>Mathf.PerlinNoise</code>를 사용한 진동은 매 프레임 임의의 난수로 진동시키는 <code>Random.insideUnitSphere</code>에 비해 파동이 유기적으로 부드럽게 이어지므로 3D 멀미를 방지하면서도 타격감을 크게 증가시킵니다.
+                            </div>
+                            <div class="code-annotation" style="border-left-color: var(--accent-red); margin-top: 15px;">
+                                <strong>코루틴 기반 게임오버:</strong><br>
+                                체력 0 도달 시 단순 리셋이 아닌, 플레이어 모델이 거칠게 회전(Spin)하며 공중으로 튕겨져 나간 뒤 점점 투명하게 사라지도록 <code>IEnumerator</code> 코루틴을 통해 정교한 연출을 하였습니다.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 9: 카메라 / 피격 연출 시뮬레이션 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Interactive Sandbox</span>
+                            <h2 class="slide-title">8. 카메라 연출 및 피격 시뮬레이터</h2>
+                        </div>
+                        <div class="slide-subtitle-desc">플레이어 가속에 따른 FOV 팽창 및 장애물 피격 시 Perlin Noise 흔들림 시뮬레이션</div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="camera-sim-wrapper">
+                            <div class="cam-slider-group">
+                                <div class="cam-slider-label">
+                                    <span>🏃 현재 달리기 속도 (Speed)</span>
+                                    <span><span id="sim-speed-val">5.0</span> m/s</span>
+                                </div>
+                                <input type="range" min="5" max="13" step="0.1" value="5" class="cam-slider" id="sim-speed-slider">
+                            </div>
+                            
+                            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                                <button class="sim-btn primary" style="flex: 1; padding: 12px;" onclick="triggerObstacleHit()">💥 장애물 충돌 트리거 (Obstacle Hit)</button>
+                                <button class="sim-btn" style="padding: 12px 20px;" onclick="initCameraSim()">🔄 복구</button>
+                            </div>
+                            
+                            <div class="code-annotation" style="margin: 0;">
+                                <strong>시너지 메커니즘 설명:</strong><br>
+                                속도 슬라이더를 높이면 우측 가상 화면의 3D 원근 앵글(FOV)이 <strong>60도에서 72도</strong>까지 확대되어 스피드감을 향상시킵니다.<br>
+                                피격 버튼을 클릭하면 체력(하트)이 차감되며 <strong>Perlin Noise 알고리즘</strong>을 적용한 셰이크가 렌더링 영역에 적용됩니다.
+                            </div>
+                        </div>
+                        <div>
+                            <div class="camera-screen-box">
+                                <div class="camera-screen-content" id="camera-screen-content">
+                                    <div class="speed-lines" id="speed-lines"></div>
+                                    <!-- Virtual HUD -->
+                                    <div class="camera-hud">
+                                        <div class="camera-hud-item">SPEED: <span id="sim-hud-speed">RUN</span></div>
+                                        <div class="camera-hud-item">FOV: <span id="sim-fov-val">60</span>°</div>
+                                    </div>
+                                    <div class="camera-hearts">
+                                        <div class="heart-icon"></div>
+                                        <div class="heart-icon"></div>
+                                        <div class="heart-icon"></div>
+                                    </div>
+                                    <!-- Virtual 3D Scene Elements -->
+                                    <div class="camera-scene-elements" id="camera-elements">
+                                        <div class="camera-track">
+                                            <div class="camera-player"></div>
+                                            <div class="camera-obstacle-obj"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 10: 결과 및 분석 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Results & Analysis</span>
+                            <h2 class="slide-title">9. 실행 결과 및 알고리즘 동작 분석</h2>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div>
+                            <div class="info-card" style="margin-bottom: 15px;">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon">🎮</div>
+                                    <h3 class="info-card-title">자연스러운 동적 장애물 구현</h3>
+                                </div>
+                                <p class="info-card-desc">
+                                    가중치 난수로 다음 셀을 구한 뒤 <code>Vector3.Lerp</code>를 적용해, NPC가 순간이동하는 현상 없이 장애물 역할을 자연스럽게 수행합니다. 고정 장애물보다 훨씬 뛰어난 몰입감을 느낄 수 있습니다.
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-header">
+                                    <div class="info-card-icon icon-purple">🔄</div>
+                                    <h3 class="info-card-title">리플레이 가치 창출 (Replay Value)</h3>
+                                </div>
+                                <p class="info-card-desc">
+                                    확률 가중치 기반 무작위 이동 덕분에 매 판 플레이할 때마다 NPC들의 배치와 이동 경로가 달라집니다. 따라서 단순 길을 외우는 암기식 플레이가 불가능하며 다채로운 즐거움을 줍니다.
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="slide-visual-wrapper">
+                                <img src="images/flowchart.png" alt="Game Logic Flowchart" class="slide-image">
+                                <div class="image-overlay-caption">실제 게임 실행 메인 로직 플로우차트</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SLIDE 11: 소감 및 역할분담 -->
+                <section class="slide">
+                    <div class="slide-header">
+                        <div>
+                            <span class="slide-category">Conclusion & Appendix</span>
+                            <h2 class="slide-title">10. 프로젝트 수행 소감 및 부록</h2>
+                        </div>
+                    </div>
+                    <div class="grid-3">
+                        <div class="info-card">
+                            <h4 style="font-size: 0.95rem; color: var(--accent-blue); margin-bottom: 10px;">팀원 수행 소감</h4>
+                            <p style="font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 10px;">
+                                <strong>유은재:</strong> 처음으로 Unity에서 3D 맵을 설계해보았습니다. 과거 언리얼 엔진으로 학교 IT관을 모델링했던 역량을 활용하여 빠르게 공간을 조형할 수 있었고 Unity만의 컴포넌트 시스템을 이해하게 되었습니다.
+                            </p>
+                            <p style="font-size: 0.8rem; line-height: 1.5; color: var(--text-secondary);">
+                                <strong>황동화:</strong> 첫 3D 게임 제작이라 모든 것이 흥미로웠습니다. 3D 모델의 복잡한 애니메이션이 런타임 상에서 Animator와 스크립트로 상호작용하는 과정이 매우 신기했습니다.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <h4 style="font-size: 0.95rem; color: var(--accent-purple); margin-bottom: 10px;">역할 분담</h4>
+                            <ul class="bullet-list purple" style="margin: 0;">
+                                <li><strong>황동화:</strong> 학교 건물 3D 맵 제작, 플레이어 & 카메라 컨트롤러 C# 스크립트 작성, AI 디버깅 보조</li>
+                                <li><strong>유은재:</strong> 학교 건물 3D 맵 조형, C# UI 스크립트, NPC BFS AI 작성, PPT 보고서 및 자료 정리</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h4 style="font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 10px;">AI 활용 및 부록</h4>
+                            <p style="font-size: 0.78rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 10px;">
+                                C# 스크립트 초안 고안, 마우스 카메라 턴 회전 보정 및 Animator 회전 충돌 문제를 해결하기 위해 ChatGPT를 활용했습니다.
+                            </p>
+                            <div style="margin-top: 15px;">
+                                <a href="https://github.com/jomebe/yumbabo" target="_blank" class="sim-btn primary" style="justify-content: center; text-decoration: none; font-size: 0.75rem;">💻 Unity 전체 코드 GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Bottom Navigation Bar -->
+            <footer class="navigation-controls">
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prev-btn" data-tooltip="이전 슬라이드 (좌방향키/PgUp)">◀</button>
+                    <button class="nav-btn" id="next-btn" data-tooltip="다음 슬라이드 (우방향키/스페이스바/PgDn)">▶</button>
+                </div>
+                
+                <div class="nav-progress-container">
+                    <div class="nav-progress-bar-bg">
+                        <div class="nav-progress-bar-fill"></div>
+                    </div>
+                    <span class="nav-slide-counter">1 / 11</span>
+                </div>
+                
+                <div class="floating-actions">
+                    <button class="header-btn" onclick="showSlide(5)" style="background: rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.3); color: var(--accent-purple);">BFS 시뮬 바로가기</button>
+                    <button class="header-btn" onclick="showSlide(8)" style="background: rgba(0, 242, 254, 0.1); border-color: rgba(0, 242, 254, 0.3); color: var(--accent-cyan);">카메라 시뮬 바로가기</button>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
