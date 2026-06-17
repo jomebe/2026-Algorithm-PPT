@@ -9,6 +9,9 @@ let autoplayInterval = null;
 let isAutoplayActive = false;
 const AUTOPLAY_DELAY = 6000; // 6s per slide
 
+// BroadcastChannel for Presenter View communication
+const channel = new BroadcastChannel('presentation_channel');
+
 // Initialize presentation slides
 function showSlide(index) {
     if (index < 0) index = 0;
@@ -40,6 +43,9 @@ function showSlide(index) {
     progressBarFill.style.width = `${progressPercent}%`;
     slideCounterText.textContent = `${index + 1} / ${slides.length}`;
 
+    // Broadcast slide change to Presenter View
+    channel.postMessage({ slideIndex: index });
+
     // Pause/Resume canvas animations based on active slide
     handleSlideVisuals(index);
 }
@@ -63,10 +69,11 @@ function toggleSidebar() {
     sidebar.classList.toggle('hidden');
 }
 
-// Fullscreen toggle
+// Fullscreen toggle for slide area specifically
 function toggleFullscreen() {
+    const presArea = document.querySelector('.presentation-area');
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {
+        presArea.requestFullscreen().catch(err => {
             console.error(`Error enabling fullscreen: ${err.message}`);
         });
     } else {
@@ -550,4 +557,25 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('sidebar-toggle-btn').addEventListener('click', toggleSidebar);
     document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
     document.getElementById('autoplay-btn').addEventListener('click', toggleAutoplay);
+    
+    // Presenter View popup window
+    const presenterBtn = document.getElementById('presenter-btn');
+    if (presenterBtn) {
+        presenterBtn.addEventListener('click', () => {
+            window.open('presenter.html', 'PresenterWindow', 'width=1100,height=750');
+        });
+    }
 });
+
+// Listen for navigation commands from Presenter Window
+channel.onmessage = (event) => {
+    if (event.data) {
+        if (event.data.action === 'next') {
+            nextSlide();
+        } else if (event.data.action === 'prev') {
+            prevSlide();
+        } else if (event.data.action === 'request_current') {
+            channel.postMessage({ slideIndex: currentSlideIndex });
+        }
+    }
+};
